@@ -37,7 +37,7 @@ export const getFeedPosts = async (req, res) => {
 };
 
 // READ
-export const getUserPosts = async (req, res) => {
+export const getUsersPosts = async (req, res) => {
   try {
     const { userId } = req.params;
     const post = await Post.find({ userId });
