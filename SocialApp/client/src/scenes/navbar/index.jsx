@@ -111,7 +111,83 @@ const Navbar = () => {
           </FormControl>
         </FlexBetween>
       ) : (
-        <IconButton></IconButton>
+        <IconButton
+          onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+        >
+          <Menu />
+        </IconButton>
+      )}
+
+      {/*   MOBILE NAV*/}
+      {!isNonMobileScreens && isMobileMenuToggled && (
+        <Box
+          position="fixed"
+          right="0"
+          bottom="0"
+          height="100%"
+          zIndex="10"
+          maxWidth="500px"
+          minWidth="300px"
+          backgrounColor={background}
+        >
+          {/* CLOSE ICON*/}
+          <Box display="flex" justifyContent="flex-end" p="1rem">
+            <IconButton
+              onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+            >
+              <CLose />
+            </IconButton>
+          </Box>
+
+          {/* MENU ITEM*/}
+          <FlexBetween
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            gap="3rem"
+          >
+            <IconButton
+              onClick={() => dispatch(setMode)}
+              sx={{ fontSize: "25pxc" }}
+            >
+              {theme.palette.mode === "dark" ? (
+                <DarkMode sx={{ fontsize: "25px" }} />
+              ) : (
+                <LightMode sx={{ color: "dark", fontsize: "25px" }} />
+              )}
+            </IconButton>
+            <Message sx={{ fontsize: "25px" }} />
+            <Notifications sx={{ fontsize: "25px" }} />
+            <Help sx={{ fontsize: "25px" }} />
+            <FormControl variant="standard" value={fullName}>
+              <Select
+                value={fullName}
+                sx={{
+                  backgroundColor: neutralLight,
+                  width: "150px",
+                  borderRadius: "0.25rem",
+                  p: "0.25rem 1rem",
+                  "& .MuiSvgIcon-Root": {
+                    pr: "025rem",
+                    width: "3rem",
+                  },
+                  "& MuiSelect-select-focus": {
+                    backgroundColor: neutralLight,
+                  },
+                }}
+                input={<InputBase />}
+              >
+                <MenuItem value={fullName}>
+                  <Typography>{fullName}</Typography>
+                </MenuItem>
+                <MenuItem onCLick={() => dispatch(setLogout())}>
+                  Log Out
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </FlexBetween>
+        </Box>
       )}
     </FlexBetween>
   );
