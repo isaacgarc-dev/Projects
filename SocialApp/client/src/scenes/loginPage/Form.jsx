@@ -3,8 +3,8 @@ import { useState } from "react";
 import {
   Box,
   Button,
-  useMediaQuery,
   TextField,
+  useMediaQuery,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -14,24 +14,22 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../../state";
-import FlexBetween from "../../components/FlexBetween";
 import Dropzone from "react-dropzone";
-import { Password } from "@mui/icons-material";
+import FlexBetween from "../../components/FlexBetween";
 
-const requiredField = yup.string().required("required");
 const registerSchema = yup.object().shape({
-  firstName: requiredField,
-  lastName: requiredField,
+  firstName: yup.string().required("required"),
+  lastName: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
-  password: requiredField,
-  location: requiredField,
-  occupation: requiredField,
-  picture: requiredField,
+  password: yup.string().required("required"),
+  location: yup.string().required("required"),
+  occupation: yup.string().required("required"),
+  picture: yup.string().required("required"),
 });
 
 const loginSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
-  password: requiredField,
+  password: yup.string().required("required"),
 });
 
 const initialValuesRegister = {
@@ -50,16 +48,16 @@ const initialValuesLogin = {
 };
 
 const Form = () => {
-  const [pageType, setPageType] = useState("Login");
-  const palette = useTheme();
+  const [pageType, setPageType] = useState("login");
+  const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isNonMobile = useMediaQuery("(min-width: 600px)");
+  const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
   const register = async (values, onSubmitProps) => {
-    //
+    // this allows us to send form info with image
     const formData = new FormData();
     for (let value in values) {
       formData.append(value, values[value]);
@@ -87,7 +85,6 @@ const Form = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
     });
-
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
     if (loggedIn) {
@@ -126,9 +123,9 @@ const Form = () => {
           <Box
             display="grid"
             gap="30px"
-            gridTemplateColumns="repeat(4, minmax(0,1fr))"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
             sx={{
-              "& >div": { gridColumn: isNonMobile ? undefined : "span 4" },
+              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
             }}
           >
             {isRegister && (
@@ -139,9 +136,9 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.firstName}
                   name="firstName"
-                  error={Boolean(
-                    touched.firstName && Boolean(errors.firstName)
-                  )}
+                  error={
+                    Boolean(touched.firstName) && Boolean(errors.firstName)
+                  }
                   helperText={touched.firstName && errors.firstName}
                   sx={{ gridColumn: "span 2" }}
                 />
@@ -151,7 +148,7 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.lastName}
                   name="lastName"
-                  error={Boolean(touched.lastName && Boolean(errors.lastName))}
+                  error={Boolean(touched.lastName) && Boolean(errors.lastName)}
                   helperText={touched.lastName && errors.lastName}
                   sx={{ gridColumn: "span 2" }}
                 />
@@ -161,9 +158,9 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.location}
                   name="location"
-                  error={Boolean(touched.location && Boolean(errors.location))}
+                  error={Boolean(touched.location) && Boolean(errors.location)}
                   helperText={touched.location && errors.location}
-                  sx={{ gridColumn: "span 2" }}
+                  sx={{ gridColumn: "span 4" }}
                 />
                 <TextField
                   label="Occupation"
@@ -171,11 +168,11 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.occupation}
                   name="occupation"
-                  error={Boolean(
-                    touched.occupation && Boolean(errors.occupation)
-                  )}
+                  error={
+                    Boolean(touched.occupation) && Boolean(errors.occupation)
+                  }
                   helperText={touched.occupation && errors.occupation}
-                  sx={{ gridColumn: "span 2" }}
+                  sx={{ gridColumn: "span 4" }}
                 />
                 <Box
                   gridColumn="span 4"
@@ -195,14 +192,15 @@ const Form = () => {
                         {...getRootProps()}
                         border={`2px dashed ${palette.primary.main}`}
                         p="1rem"
-                        sx={{ "&hover": { cursor: "pointer" } }}
+                        sx={{ "&:hover": { cursor: "pointer" } }}
                       >
                         <input {...getInputProps()} />
                         {!values.picture ? (
                           <p>Add Picture Here</p>
                         ) : (
                           <FlexBetween>
-                            <Typography>{values.pictures.name}</Typography>
+                            <Typography>{values.picture.name}</Typography>
+                            <EditOutlinedIcon />
                           </FlexBetween>
                         )}
                       </Box>
@@ -218,9 +216,9 @@ const Form = () => {
               onChange={handleChange}
               value={values.email}
               name="email"
-              error={Boolean(touched.email && Boolean(errors.email))}
+              error={Boolean(touched.email) && Boolean(errors.email)}
               helperText={touched.email && errors.email}
-              sx={{ gridColumn: "span 2" }}
+              sx={{ gridColumn: "span 4" }}
             />
             <TextField
               label="Password"
@@ -229,9 +227,9 @@ const Form = () => {
               onChange={handleChange}
               value={values.password}
               name="password"
-              error={Boolean(touched.password && Boolean(errors.password))}
+              error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={touched.password && errors.password}
-              sx={{ gridColumn: "span 2" }}
+              sx={{ gridColumn: "span 4" }}
             />
           </Box>
 
@@ -243,11 +241,12 @@ const Form = () => {
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-                backgroundColor: palette.background.alt,
+                backgroundColor: palette.primary.main,
+                color: palette.background.alt,
                 "&:hover": { color: palette.primary.main },
               }}
             >
-              {isLogin ? "LOGING" : "REGISTER"}
+              {isLogin ? "LOGIN" : "REGISTER"}
             </Button>
             <Typography
               onClick={() => {
@@ -256,7 +255,7 @@ const Form = () => {
               }}
               sx={{
                 textDecoration: "underline",
-                color: palette.primary.light,
+                color: palette.primary.main,
                 "&:hover": {
                   cursor: "pointer",
                   color: palette.primary.light,
@@ -264,8 +263,8 @@ const Form = () => {
               }}
             >
               {isLogin
-                ? "Don't have an account? Sign Up here"
-                : "Already have an account? Login here"}
+                ? "Don't have an account? Sign Up here."
+                : "Already have an account? Login here."}
             </Typography>
           </Box>
         </form>
