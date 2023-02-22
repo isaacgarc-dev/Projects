@@ -1,5 +1,5 @@
-import { useState } from "react";
 import React from "react";
+import { useState } from "react";
 import {
   Box,
   IconButton,
@@ -43,25 +43,25 @@ const Navbar = () => {
   const fullName = `${user.firstName} ${user.lastName}`;
 
   return (
-    <FlexBetween padding="1rem 6%" backgrounColor={alt}>
+    <FlexBetween padding="1rem 6%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
         <Typography
           fontWeight="bold"
-          fontSize="clamp(1rem,2rem, 2.25rem)"
+          fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
-          onCLick={() => navigate("/home")}
+          onClick={() => navigate("/home")}
           sx={{
             "&:hover": {
+              color: primaryLight,
               cursor: "pointer",
-              color: "primaryLight",
             },
           }}
         >
-          Pulse
+          Sociopedia
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween
-            backgrounColor={neutralLight}
+            backgroundColor={neutralLight}
             borderRadius="9px"
             gap="3rem"
             padding="0.1rem 1.5rem"
@@ -73,19 +73,20 @@ const Navbar = () => {
           </FlexBetween>
         )}
       </FlexBetween>
-      {/*Destok Nav*/}
+
+      {/* DESKTOP NAV */}
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
-          <IconButton onClick={() => dispatch(setMode)}>
+          <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
-              <DarkMode sx={{ fontsize: "25px" }} />
+              <DarkMode sx={{ fontSize: "25px" }} />
             ) : (
-              <LightMode sx={{ color: "dark", fontsize: "25px" }} />
+              <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton>
-          <Message sx={{ fontsize: "25px" }} />
-          <Notifications sx={{ fontsize: "25px" }} />
-          <Help sx={{ fontsize: "25px" }} />
+          <Message sx={{ fontSize: "25px" }} />
+          <Notifications sx={{ fontSize: "25px" }} />
+          <Help sx={{ fontSize: "25px" }} />
           <FormControl variant="standard" value={fullName}>
             <Select
               value={fullName}
@@ -94,11 +95,11 @@ const Navbar = () => {
                 width: "150px",
                 borderRadius: "0.25rem",
                 p: "0.25rem 1rem",
-                "& .MuiSvgIcon-Root": {
-                  pr: "025rem",
+                "& .MuiSvgIcon-root": {
+                  pr: "0.25rem",
                   width: "3rem",
                 },
-                "& MuiSelect-select-focus": {
+                "& .MuiSelect-select:focus": {
                   backgroundColor: neutralLight,
                 },
               }}
@@ -107,7 +108,7 @@ const Navbar = () => {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              <MenuItem onCLick={() => dispatch(setLogout())}>Log Out</MenuItem>
+              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
             </Select>
           </FormControl>
         </FlexBetween>
@@ -119,7 +120,7 @@ const Navbar = () => {
         </IconButton>
       )}
 
-      {/*   MOBILE NAV*/}
+      {/* MOBILE NAV */}
       {!isNonMobileScreens && isMobileMenuToggled && (
         <Box
           position="fixed"
@@ -129,9 +130,9 @@ const Navbar = () => {
           zIndex="10"
           maxWidth="500px"
           minWidth="300px"
-          backgrounColor={background}
+          backgroundColor={background}
         >
-          {/* CLOSE ICON*/}
+          {/* CLOSE ICON */}
           <Box display="flex" justifyContent="flex-end" p="1rem">
             <IconButton
               onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
@@ -140,7 +141,7 @@ const Navbar = () => {
             </IconButton>
           </Box>
 
-          {/* MENU ITEM*/}
+          {/* MENU ITEMS */}
           <FlexBetween
             display="flex"
             flexDirection="column"
@@ -149,18 +150,18 @@ const Navbar = () => {
             gap="3rem"
           >
             <IconButton
-              onClick={() => dispatch(setMode)}
-              sx={{ fontSize: "25pxc" }}
+              onClick={() => dispatch(setMode())}
+              sx={{ fontSize: "25px" }}
             >
               {theme.palette.mode === "dark" ? (
-                <DarkMode sx={{ fontsize: "25px" }} />
+                <DarkMode sx={{ fontSize: "25px" }} />
               ) : (
-                <LightMode sx={{ color: "dark", fontsize: "25px" }} />
+                <LightMode sx={{ color: dark, fontSize: "25px" }} />
               )}
             </IconButton>
-            <Message sx={{ fontsize: "25px" }} />
-            <Notifications sx={{ fontsize: "25px" }} />
-            <Help sx={{ fontsize: "25px" }} />
+            <Message sx={{ fontSize: "25px" }} />
+            <Notifications sx={{ fontSize: "25px" }} />
+            <Help sx={{ fontSize: "25px" }} />
             <FormControl variant="standard" value={fullName}>
               <Select
                 value={fullName}
@@ -169,11 +170,11 @@ const Navbar = () => {
                   width: "150px",
                   borderRadius: "0.25rem",
                   p: "0.25rem 1rem",
-                  "& .MuiSvgIcon-Root": {
-                    pr: "025rem",
+                  "& .MuiSvgIcon-root": {
+                    pr: "0.25rem",
                     width: "3rem",
                   },
-                  "& MuiSelect-select-focus": {
+                  "& .MuiSelect-select:focus": {
                     backgroundColor: neutralLight,
                   },
                 }}
@@ -182,7 +183,7 @@ const Navbar = () => {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                <MenuItem onCLick={() => dispatch(setLogout())}>
+                <MenuItem onClick={() => dispatch(setLogout())}>
                   Log Out
                 </MenuItem>
               </Select>
